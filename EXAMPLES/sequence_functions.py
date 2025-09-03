@@ -13,3 +13,8 @@ for m in sorted(colors):   # sorted() returns a sorted list
     print(m, end=' ')
 print()
 
+nums = [800, 80.08, "abc", "123", 1000, 32, -3, 8, True, 18, None, 255, 400.7, 5, 5000]
+
+total = sum([n for n in nums if isinstance(n, (int, float))])
+print(f"{total = }")
+

@@ -1,0 +1,26 @@
+a = 23
+b = 7
+
+print(a + b, a - b, a * b)  # normal operations
+
+print(a / b, a // b, a / -b, a // -b)   # division and floored division
+  
+print(a ** b)   # exponentiation
+
+x = 22
+x += 10  # Same as x = x + 10
+print(f"{x = }")
+print()
+
+# x++ ++x EVIL
+
+alpha = 1
+beta = 2
+gamma = 3
+delta = 4
+# P E M/D A/S
+print(f"{alpha + beta * gamma / delta = }")
+print(f"{(alpha + beta) * (gamma / delta) = }")
+print(f"{(alpha + (beta * gamma)) / delta = }")
+print(f"{alpha + ((beta * gamma) / delta) = }")
+

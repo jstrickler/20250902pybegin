@@ -1,5 +1,6 @@
 import sys
-import geometry  # load geometry.py
+# import PKG.PKG.module
+import alpha.mathlib.geometry as geometry  # load geometry.py
 
 # MODULE.name
 circle = geometry.circle_area(8)

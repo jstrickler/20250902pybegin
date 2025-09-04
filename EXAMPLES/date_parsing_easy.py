@@ -1,4 +1,5 @@
 #
+# pip install python-dateutil
 from dateutil import parser
 
 date_strings = [  # list of assorted date strings

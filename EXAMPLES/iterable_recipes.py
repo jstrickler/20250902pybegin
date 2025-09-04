@@ -17,23 +17,28 @@ from itertools import *
 import operator
 from operator import itemgetter
 
+
 def take(n, iterable):
     "Return first n items of the iterable as a list"
     return list(islice(iterable, n))
+
 
 def prepend(value, iterator):
     "Prepend a single value in front of an iterator"
     # prepend(1, [2, 3, 4]) -> 1 2 3 4
     return chain([value], iterator)
 
+
 def tabulate(function, start=0):
     "Return function(0), function(1), ..."
     return map(function, count(start))
+
 
 def tail(n, iterable):
     "Return an iterator over the last n items"
     # tail(3, 'ABCDEFG') --> E F G
     return iter(collections.deque(iterable, maxlen=n))
+
 
 def consume(iterator, n=None):
     "Advance the iterator n-steps ahead. If n is None, consume entirely."
@@ -45,18 +50,22 @@ def consume(iterator, n=None):
         # advance to the empty slice starting at position n
         next(islice(iterator, n, n), None)
 
+
 def nth(iterable, n, default=None):
     "Returns the nth item or a default value"
     return next(islice(iterable, n, None), default)
+
 
 def all_equal(iterable):
     "Returns True if all the elements are equal to each other"
     g = groupby(iterable)
     return next(g, True) and not next(g, False)
 
+
 def quantify(iterable, pred=bool):
     "Count how many times the predicate is true"
     return sum(map(pred, iterable))
+
 
 def padnone(iterable):
     """Returns the sequence elements and then returns None indefinitely.
@@ -65,16 +74,20 @@ def padnone(iterable):
     """
     return chain(iterable, repeat(None))
 
+
 def ncycles(iterable, n):
     "Returns the sequence elements n times"
     return chain.from_iterable(repeat(tuple(iterable), n))
 
+
 def dotproduct(vec1, vec2):
     return sum(map(operator.mul, vec1, vec2))
+
 
 def flatten(listOfLists):
     "Flatten one level of nesting"
     return chain.from_iterable(listOfLists)
+
 
 def repeatfunc(func, times=None, *args):
     """Repeat calls to func with specified arguments.
@@ -85,17 +98,20 @@ def repeatfunc(func, times=None, *args):
         return starmap(func, repeat(args))
     return starmap(func, repeat(args, times))
 
+
 def pairwise(iterable):
     "s -> (s0,s1), (s1,s2), (s2, s3), ..."
     a, b = tee(iterable)
     next(b, None)
     return zip(a, b)
 
+
 def grouper(iterable, n, fillvalue=None):
     "Collect data into fixed-length chunks or blocks"
     # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx"
     args = [iter(iterable)] * n
     return zip_longest(*args, fillvalue=fillvalue)
+
 
 def roundrobin(*iterables):
     "roundrobin('ABC', 'D', 'EF') --> A D E B F C"
@@ -111,16 +127,19 @@ def roundrobin(*iterables):
             num_active -= 1
             nexts = cycle(islice(nexts, num_active))
 
+
 def partition(pred, iterable):
-    'Use a predicate to partition entries into false entries and true entries'
+    "Use a predicate to partition entries into false entries and true entries"
     # partition(is_odd, range(10)) --> 0 2 4 6 8   and  1 3 5 7 9
     t1, t2 = tee(iterable)
     return filterfalse(pred, t1), filter(pred, t2)
 
+
 def powerset(iterable):
     "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
     s = list(iterable)
-    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
+    return chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))
+
 
 def unique_everseen(iterable, key=None):
     "List unique elements, preserving order. Remember all elements ever seen."
@@ -139,14 +158,16 @@ def unique_everseen(iterable, key=None):
                 seen_add(k)
                 yield element
 
+
 def unique_justseen(iterable, key=None):
     "List unique elements, preserving order. Remember only the element just seen."
     # unique_justseen('AAAABBBCCDAABBB') --> A B C D A B
     # unique_justseen('ABBCcAD', str.lower) --> A B C A D
     return map(next, map(itemgetter(1), groupby(iterable, key)))
 
+
 def iter_except(func, exception, first=None):
-    """ Call a function repeatedly until an exception is raised.
+    """Call a function repeatedly until an exception is raised.
 
     Converts a call-until-exception interface to an iterator interface.
     Like builtins.iter(func, sentinel) but uses an exception instead
@@ -162,11 +183,12 @@ def iter_except(func, exception, first=None):
     """
     try:
         if first is not None:
-            yield first()            # For database APIs needing an initial cast to db.first()
+            yield first()  # For database APIs needing an initial cast to db.first()
         while True:
             yield func()
     except exception:
         pass
+
 
 def first_true(iterable, default=False, pred=None):
     """Returns the first true value in the iterable.
@@ -181,16 +203,19 @@ def first_true(iterable, default=False, pred=None):
     # first_true([a,b], x, f) --> a if f(a) else b if f(b) else x
     return next(filter(pred, iterable), default)
 
+
 def random_product(*args, repeat=1):
     "Random selection from itertools.product(*args, **kwds)"
     pools = [tuple(pool) for pool in args] * repeat
     return tuple(random.choice(pool) for pool in pools)
+
 
 def random_permutation(iterable, r=None):
     "Random selection from itertools.permutations(iterable, r)"
     pool = tuple(iterable)
     r = len(pool) if r is None else r
     return tuple(random.sample(pool, r))
+
 
 def random_combination(iterable, r):
     "Random selection from itertools.combinations(iterable, r)"
@@ -199,6 +224,7 @@ def random_combination(iterable, r):
     indices = sorted(random.sample(range(n), r))
     return tuple(pool[i] for i in indices)
 
+
 def random_combination_with_replacement(iterable, r):
     "Random selection from itertools.combinations_with_replacement(iterable, r)"
     pool = tuple(iterable)
@@ -206,15 +232,16 @@ def random_combination_with_replacement(iterable, r):
     indices = sorted(random.randrange(n) for i in range(r))
     return tuple(pool[i] for i in indices)
 
+
 def nth_combination(iterable, r, index):
-    'Equivalent to list(combinations(iterable, r))[index]'
+    "Equivalent to list(combinations(iterable, r))[index]"
     pool = tuple(iterable)
     n = len(pool)
     if r < 0 or r > n:
         raise ValueError
     c = 1
-    k = min(r, n-r)
-    for i in range(1, k+1):
+    k = min(r, n - r)
+    for i in range(1, k + 1):
         c = c * (n - k + i) // i
     if index < 0:
         index += c
@@ -222,16 +249,18 @@ def nth_combination(iterable, r, index):
         raise IndexError
     result = []
     while r:
-        c, n, r = c*r//n, n-1, r-1
+        c, n, r = c * r // n, n - 1, r - 1
         while index >= c:
             index -= c
-            c, n = c*(n-r)//n, n-1
-        result.append(pool[-1-n])
+            c, n = c * (n - r) // n, n - 1
+        result.append(pool[-1 - n])
     return tuple(result)
+
 
 # Note, many of the above recipes can be optimized by replacing global
 # lookups with local variables defined as default values. For example,
 #  the dotproduct recipe can be written as:
+
 
 def dotproduct(vec1, vec2, sum=sum, map=map, mul=operator.mul):
     return sum(map(mul, vec1, vec2))

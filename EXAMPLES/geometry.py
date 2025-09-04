@@ -40,12 +40,12 @@ def square_area(side):
     """
     return side ** 2
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # if run directly with python, and NOT imported
     area1 = square_area(15)
     print(f"area1: {area1}")
-    
+
     area2 = circle_area(22)
     print(f"area2: {area2}")
-    
+
     area3 = rectangle_area(9, 13)
     print(f"area3: {area3}")
